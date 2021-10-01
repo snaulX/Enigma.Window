@@ -7,32 +7,35 @@ using SilkGlfw = Silk.NET.GLFW.Glfw;
 
 namespace Enigma.Glfw
 {
+    // Thanks to https://github.com/amerkoleci/alimer/blob/main/Source/Engine/Private/Platform_GLFW.cpp
+    // For using it in learning purposes
     public unsafe class GlfwWindow : IWindow
     {
+        // Glfw fields
         private readonly SilkGlfw glfw;
-        private readonly WindowHandle* handle;
+        private WindowHandle* handle;
         private readonly Monitor* monitor;
-
         private readonly GlfwNativeWindow nativeWindow;
 
+        // Fields for custom usage;
         private string _title;
+        private bool _isClosing = false;
 
         public IntPtr Handle 
         { 
             get 
             {
-                switch (nativeWindow.Kind)
+                return nativeWindow.Kind switch
                 {
-                    case NativeWindowFlags.Win32:
-                        {
-                            (nint Hwnd, nint HDC, nint HInstance)? win32 = nativeWindow.Win32;
-                            return win32.Value.Hwnd;
-                        }
-                    case NativeWindowFlags.X11:
-                        return unchecked((IntPtr)(long)(ulong)new UIntPtr(nativeWindow.X11.Value.Window));
-                    default:
-                        return (IntPtr)nativeWindow.Glfw;
-                }
+                    NativeWindowFlags.Win32 => nativeWindow.Win32.Value.Hwnd,
+                    NativeWindowFlags.Wayland => nativeWindow.Wayland.Value.Surface,
+                    NativeWindowFlags.UIKit => nativeWindow.UIKit.Value.Window,
+                    NativeWindowFlags.Cocoa => nativeWindow.Cocoa.Value,
+                    NativeWindowFlags.WinRT => nativeWindow.WinRT.Value,
+                    NativeWindowFlags.Android => nativeWindow.Android.Value.Window, // Window or Surface?
+                    NativeWindowFlags.X11 => unchecked((IntPtr)(long)(ulong)new UIntPtr(nativeWindow.X11.Value.Window)),
+                    _ => (IntPtr)nativeWindow.Glfw,
+                };
             } 
         }
 
@@ -41,13 +44,38 @@ namespace Enigma.Glfw
         public Int2 Size { get { glfw.GetWindowSize(handle, out int w, out int h); return new Int2(w, h); } set => glfw.SetWindowSize(handle, value.X, value.Y); }
 
         public bool Exists => handle != null;
+        public bool IsMinimized 
+        { 
+            get 
+            {
+                if (glfw.WindowShouldClose(handle))
+                    return true;
+
+                glfw.GetFramebufferSize(handle, out int w, out int h);
+                return w == 0 || h == 0;
+            } 
+        }
+        public bool IsClosing => _isClosing;
 
         public event Action OnResized;
-        public event Action OnClosing;
+        public event Func<bool> OnClosing;
         public event Action OnClosed;
+        public event Action OnShow;
 
         public void Close()
         {
+            if (_isClosing)
+                return;
+
+            _isClosing = true;
+            bool? cancelClose = OnClosing?.Invoke();
+            if (cancelClose == true) // we can't write if (cancelClose) because cancelClose is nullable type
+            {
+                _isClosing = false;
+                return;
+            }
+            glfw.SetWindowShouldClose(handle, true);
+            OnClosed?.Invoke();
         }
 
         public void Hide()
@@ -57,7 +85,19 @@ namespace Enigma.Glfw
 
         public void Show()
         {
+            OnShow?.Invoke();
             glfw.ShowWindow(handle);
+        }
+
+        public void Update()
+        {
+            glfw.PollEvents();
+        }
+
+        public void Destroy()
+        {
+            glfw.DestroyWindow(handle);
+            handle = null;
         }
 
         public GlfwWindow(string title, Int2 position, Int2 size, WindowState flags)
@@ -89,6 +129,7 @@ namespace Enigma.Glfw
             _title = title;
             handle = glfw.CreateWindow(size.X, size.Y, title, monitor, null);
             glfw.DefaultWindowHints();
+            Position = position;
             nativeWindow = new GlfwNativeWindow(glfw, handle);
         }
     }
