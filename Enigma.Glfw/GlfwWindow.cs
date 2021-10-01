@@ -21,29 +21,28 @@ namespace Enigma.Glfw
         private string _title;
         private bool _isClosing = false;
 
-        public IntPtr Handle 
-        { 
-            get 
-            {
-                return nativeWindow.Kind switch
-                {
-                    NativeWindowFlags.Win32 => nativeWindow.Win32.Value.Hwnd,
-                    NativeWindowFlags.Wayland => nativeWindow.Wayland.Value.Surface,
-                    NativeWindowFlags.UIKit => nativeWindow.UIKit.Value.Window,
-                    NativeWindowFlags.Cocoa => nativeWindow.Cocoa.Value,
-                    NativeWindowFlags.WinRT => nativeWindow.WinRT.Value,
-                    NativeWindowFlags.Android => nativeWindow.Android.Value.Window, // Window or Surface?
-                    NativeWindowFlags.X11 => unchecked((IntPtr)(long)(ulong)new UIntPtr(nativeWindow.X11.Value.Window)),
-                    _ => (IntPtr)nativeWindow.Glfw,
-                };
-            } 
-        }
+        public IntPtr Handle => nativeWindow.Kind switch
+        {
+            NativeWindowFlags.Win32 => nativeWindow.Win32.Value.Hwnd,
+            NativeWindowFlags.Wayland => nativeWindow.Wayland.Value.Surface,
+            NativeWindowFlags.UIKit => nativeWindow.UIKit.Value.Window,
+            NativeWindowFlags.Cocoa => nativeWindow.Cocoa.Value,
+            NativeWindowFlags.WinRT => nativeWindow.WinRT.Value,
+            NativeWindowFlags.Android => nativeWindow.Android.Value.Window, // Window or Surface?
+            NativeWindowFlags.X11 => unchecked((IntPtr)(long)(ulong)new UIntPtr(nativeWindow.X11.Value.Window)),
+            //NativeWindowFlags.Glfw => throw new NotImplementedException(),
+            //NativeWindowFlags.Sdl => throw new NotImplementedException(),
+            NativeWindowFlags.DirectFB => throw new NotImplementedException(),
+            NativeWindowFlags.Vivante => nativeWindow.Vivante.Value.Window,
+            NativeWindowFlags.OS2 => throw new NotImplementedException(),
+            NativeWindowFlags.Haiku => throw new NotImplementedException(),
+            _ => IntPtr.Zero,
+        };
 
         public string Title { get => _title; set { glfw.SetWindowTitle(handle, value); _title = value; } }
         public Int2 Position { get { glfw.GetWindowPos(handle, out int x, out int y); return new Int2(x, y); } set => glfw.SetWindowPos(handle, value.X, value.Y); }
         public Int2 Size { get { glfw.GetWindowSize(handle, out int w, out int h); return new Int2(w, h); } set => glfw.SetWindowSize(handle, value.X, value.Y); }
 
-        public bool Exists => handle != null;
         public bool IsMinimized 
         { 
             get 
@@ -57,10 +56,13 @@ namespace Enigma.Glfw
         }
         public bool IsClosing => _isClosing;
 
-        public event Action OnResized;
+        public event Action<int, int> OnResized;
+        public event Action<int, int> OnFramebufferResized;
         public event Func<bool> OnClosing;
         public event Action OnClosed;
         public event Action OnShow;
+        public event Action OnUpdate;
+        public event Action OnRender;
 
         public void Close()
         {
@@ -69,7 +71,7 @@ namespace Enigma.Glfw
 
             _isClosing = true;
             bool? cancelClose = OnClosing?.Invoke();
-            if (cancelClose == true) // we can't write if (cancelClose) because cancelClose is nullable type
+            if (cancelClose == true) // we can't write `if (cancelClose)` because cancelClose is nullable type
             {
                 _isClosing = false;
                 return;
@@ -92,6 +94,8 @@ namespace Enigma.Glfw
         public void Update()
         {
             glfw.PollEvents();
+            OnUpdate?.Invoke();
+            OnRender?.Invoke();
         }
 
         public void Destroy()
@@ -100,6 +104,8 @@ namespace Enigma.Glfw
             handle = null;
         }
 
+        public bool ShouldClose() => glfw.WindowShouldClose(handle);
+
         public GlfwWindow(string title, Int2 position, Int2 size, WindowState flags)
         {
             glfw = SilkGlfw.GetApi();
@@ -107,6 +113,8 @@ namespace Enigma.Glfw
             {
                 Console.WriteLine("GLFW doesn't init");
             }
+
+            // Set hints
             glfw.WindowHint(WindowHintClientApi.ClientApi, ClientApi.NoApi);
 
             glfw.WindowHint(WindowHintBool.Decorated, (flags & WindowState.Borderless) != WindowState.Borderless);
@@ -130,6 +138,12 @@ namespace Enigma.Glfw
             handle = glfw.CreateWindow(size.X, size.Y, title, monitor, null);
             glfw.DefaultWindowHints();
             Position = position;
+
+            // Set callbacks
+            glfw.SetWindowSizeCallback(handle, (win, w, h) => OnResized?.Invoke(w, h));
+            glfw.SetFramebufferSizeCallback(handle, (win, w, h) => OnFramebufferResized?.Invoke(w, h));
+            glfw.SetWindowCloseCallback(handle, (win) => Close());
+
             nativeWindow = new GlfwNativeWindow(glfw, handle);
         }
     }

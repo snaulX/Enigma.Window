@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Enigma.Window
+﻿namespace Enigma.Window
 {
-    [Flags]
+    [System.Flags]
     public enum WindowState
     {
         None = 0,
