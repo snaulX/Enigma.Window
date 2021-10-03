@@ -1,9 +1,9 @@
 ﻿using System;
 using Enigma.Window;
 using Silk.NET.GLFW;
-using Silk.NET.Core.Contexts;
 using Vortice.Mathematics;
 using SilkGlfw = Silk.NET.GLFW.Glfw;
+using Enigma.Window.Silk;
 
 namespace Enigma.Glfw
 {
@@ -15,29 +15,12 @@ namespace Enigma.Glfw
         private readonly SilkGlfw glfw;
         private WindowHandle* handle;
         private readonly Monitor* monitor;
-        private readonly GlfwNativeWindow nativeWindow;
 
         // Fields for custom usage;
         private string _title;
         private bool _isClosing = false;
 
-        public IntPtr Handle => nativeWindow.Kind switch
-        {
-            NativeWindowFlags.Win32 => nativeWindow.Win32.Value.Hwnd,
-            NativeWindowFlags.Wayland => nativeWindow.Wayland.Value.Surface,
-            NativeWindowFlags.UIKit => nativeWindow.UIKit.Value.Window,
-            NativeWindowFlags.Cocoa => nativeWindow.Cocoa.Value,
-            NativeWindowFlags.WinRT => nativeWindow.WinRT.Value,
-            NativeWindowFlags.Android => nativeWindow.Android.Value.Window, // Window or Surface?
-            NativeWindowFlags.X11 => unchecked((IntPtr)(long)(ulong)new UIntPtr(nativeWindow.X11.Value.Window)),
-            //NativeWindowFlags.Glfw => throw new NotImplementedException(),
-            //NativeWindowFlags.Sdl => throw new NotImplementedException(),
-            NativeWindowFlags.DirectFB => throw new NotImplementedException(),
-            NativeWindowFlags.Vivante => nativeWindow.Vivante.Value.Window,
-            NativeWindowFlags.OS2 => throw new NotImplementedException(),
-            NativeWindowFlags.Haiku => throw new NotImplementedException(),
-            _ => IntPtr.Zero,
-        };
+        public NativeWindow NativeHandle { get; }
 
         public string Title { get => _title; set { glfw.SetWindowTitle(handle, value); _title = value; } }
         public Int2 Position { get { glfw.GetWindowPos(handle, out int x, out int y); return new Int2(x, y); } set => glfw.SetWindowPos(handle, value.X, value.Y); }
@@ -144,7 +127,7 @@ namespace Enigma.Glfw
             glfw.SetFramebufferSizeCallback(handle, (win, w, h) => OnFramebufferResized?.Invoke(w, h));
             glfw.SetWindowCloseCallback(handle, (win) => Close());
 
-            nativeWindow = new GlfwNativeWindow(glfw, handle);
+            NativeHandle = new GlfwNativeWindow(glfw, handle).ToEnigma();
         }
     }
 }

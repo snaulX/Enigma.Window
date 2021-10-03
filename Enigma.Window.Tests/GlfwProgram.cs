@@ -9,6 +9,7 @@ namespace Enigma.Window.Tests
         static void Main(string[] args)
         {
             IWindow window = new GlfwWindow("GLFW Window", new Int2(100, 100), new Int2(800, 600), WindowState.Resizable);
+            Console.WriteLine(window.NativeHandle.PlatformHandle);
             window.OnClosed += () => Console.WriteLine("Window is closed");
             window.OnClosing += () => {
                 Console.Write("Do you want to close window? (y/n) ");

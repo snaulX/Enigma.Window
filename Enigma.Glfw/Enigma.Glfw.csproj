@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Enigma.Window\Enigma.Window.csproj" />
+    <ProjectReference Include="..\Enigma.Window.SilkExtensions\Enigma.Window.SilkExtensions.csproj" />
   </ItemGroup>
 
 </Project>
