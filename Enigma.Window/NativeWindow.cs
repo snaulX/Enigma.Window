@@ -15,6 +15,12 @@ namespace Enigma.Window
         public static NativeWindow CreateWinRT(IntPtr window)
             => new NativeWindow(NativeWindowType.WinRT) { WinRT = new WinRTNativeWindow { Window = window } };
 
+        public static NativeWindow CreateCocoa(IntPtr window)
+            => new NativeWindow(NativeWindowType.Cocoa) { Cocoa = new CocoaNativeWindow { Window = window } };
+
+        public static NativeWindow CreateAndriod(IntPtr window, IntPtr surface)
+            => new NativeWindow(NativeWindowType.Android) { Android = new AndroidNativeWindow { Window = window, Surface = surface } };
+
         public NativeWindowType Type { get; set; }
 
         public Win32NativeWindow Win32 { get; set; }

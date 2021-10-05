@@ -20,20 +20,20 @@ namespace Enigma.Window.Silk
 
         public static NativeWindow ToEnigma(this INativeWindow nativeWindow)
         {
-            NativeWindow defaultNw = new NativeWindow(nativeWindow.Kind.ToEnigma());
+            Func<NativeWindow> defaultNw = () => new NativeWindow(nativeWindow.Kind.ToEnigma());
             return nativeWindow.Kind.CheckFlags(
-                (NativeWindowFlags.Glfw, defaultNw),
+                (NativeWindowFlags.Glfw, defaultNw), // use functions to don't create windows before checking flags
                 (NativeWindowFlags.Sdl, defaultNw),
-                (NativeWindowFlags.Win32, NativeWindow.CreateWin32(nativeWindow.Win32.Value.Hwnd, nativeWindow.Win32.Value.HInstance)),
+                (NativeWindowFlags.Win32, () => NativeWindow.CreateWin32(nativeWindow.Win32.Value.Hwnd, nativeWindow.Win32.Value.HInstance)),
                 (NativeWindowFlags.Wayland, defaultNw),
                 (NativeWindowFlags.DirectFB, defaultNw),
                 (NativeWindowFlags.X11, defaultNw),
                 (NativeWindowFlags.Haiku, defaultNw),
                 (NativeWindowFlags.OS2, defaultNw),
                 (NativeWindowFlags.Vivante, defaultNw),
-                (NativeWindowFlags.Android, defaultNw),
-                (NativeWindowFlags.WinRT, NativeWindow.CreateWinRT(nativeWindow.WinRT.Value)),
-                (NativeWindowFlags.Cocoa, defaultNw),
+                (NativeWindowFlags.Android, () => NativeWindow.CreateAndriod(nativeWindow.Android.Value.Window, nativeWindow.Android.Value.Surface)),
+                (NativeWindowFlags.WinRT, () => NativeWindow.CreateWinRT(nativeWindow.WinRT.Value)),
+                (NativeWindowFlags.Cocoa, () => NativeWindow.CreateCocoa(nativeWindow.Cocoa.Value)),
                 (NativeWindowFlags.UIKit, defaultNw));
         }
     }
