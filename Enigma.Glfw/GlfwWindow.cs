@@ -47,6 +47,8 @@ namespace Enigma.Glfw
         public event Action OnUpdate;
         public event Action OnRender;
 
+        private readonly GlfwCallbacks.WindowCloseCallback _windowCloseCallback;
+
         public void Close()
         {
             if (_isClosing)
@@ -54,13 +56,9 @@ namespace Enigma.Glfw
 
             _isClosing = true;
             bool? cancelClose = OnClosing?.Invoke();
-            if (cancelClose == true) // we can't write `if (cancelClose)` because cancelClose is nullable type
-            {
-                _isClosing = false;
-                return;
-            }
-            glfw.SetWindowShouldClose(handle, true);
-            OnClosed?.Invoke();
+            _isClosing = cancelClose != true;
+            glfw.SetWindowShouldClose(handle, _isClosing);
+            if (_isClosing) OnClosed?.Invoke();
         }
 
         public void Hide()
@@ -101,8 +99,8 @@ namespace Enigma.Glfw
             glfw.WindowHint(WindowHintClientApi.ClientApi, ClientApi.NoApi);
 
             glfw.WindowHint(WindowHintBool.Decorated, (flags & WindowState.Borderless) != WindowState.Borderless);
-            glfw.WindowHint(WindowHintBool.Resizable, (flags & WindowState.Resizable) == WindowState.Resizable);
-            glfw.WindowHint(WindowHintBool.Maximized, (flags & WindowState.Maximized) == WindowState.Maximized);
+            glfw.WindowHint(WindowHintBool.Resizable, flags.HasFlag(WindowState.Resizable));
+            glfw.WindowHint(WindowHintBool.Maximized, flags.HasFlag(WindowState.Maximized));
 
             if ((flags & WindowState.Fullscreen) == WindowState.Fullscreen) monitor = glfw.GetPrimaryMonitor();
 
@@ -125,7 +123,7 @@ namespace Enigma.Glfw
             // Set callbacks
             glfw.SetWindowSizeCallback(handle, (win, w, h) => OnResized?.Invoke(w, h));
             glfw.SetFramebufferSizeCallback(handle, (win, w, h) => OnFramebufferResized?.Invoke(w, h));
-            glfw.SetWindowCloseCallback(handle, (win) => Close());
+            _windowCloseCallback = glfw.SetWindowCloseCallback(handle, (wnd) => Close());
 
             NativeHandle = new GlfwNativeWindow(glfw, handle).ToEnigma();
         }

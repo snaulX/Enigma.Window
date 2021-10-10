@@ -16,6 +16,11 @@ namespace Enigma.Window.Tests
                 string answer = Console.ReadLine();
                 return answer == "n" || answer == "no";
             };
+            window.OnRender += () =>
+            {
+                Console.Clear();
+                Console.WriteLine("Rendering...");
+            };
             while (!window.ShouldClose())
             {
                 window.Update();

@@ -12,7 +12,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enigma.Glfw", "..\Enigma.Gl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enigma.Window.Tests", "..\Enigma.Window.Tests\Enigma.Window.Tests.csproj", "{8CA328FF-54F3-43A9-85A2-0E61B0C3C70C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enigma.Window.SilkExtensions", "..\Enigma.Window.SilkExtensions\Enigma.Window.SilkExtensions.csproj", "{1E8B4236-AE83-4477-BEBA-D38D4D576DF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enigma.Window.SilkExtensions", "..\Enigma.Window.SilkExtensions\Enigma.Window.SilkExtensions.csproj", "{1E8B4236-AE83-4477-BEBA-D38D4D576DF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enigma.WinForms", "..\Enigma.WinForms\Enigma.WinForms.csproj", "{19E901FF-1D06-47DA-A126-0CA30B04D498}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +38,10 @@ Global
 		{1E8B4236-AE83-4477-BEBA-D38D4D576DF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E8B4236-AE83-4477-BEBA-D38D4D576DF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E8B4236-AE83-4477-BEBA-D38D4D576DF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19E901FF-1D06-47DA-A126-0CA30B04D498}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19E901FF-1D06-47DA-A126-0CA30B04D498}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19E901FF-1D06-47DA-A126-0CA30B04D498}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19E901FF-1D06-47DA-A126-0CA30B04D498}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
