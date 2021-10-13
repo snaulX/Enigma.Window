@@ -75,19 +75,62 @@ namespace Enigma.Glfw
         public void Update()
         {
             glfw.PollEvents();
-            OnUpdate?.Invoke();
             OnRender?.Invoke();
+            OnUpdate?.Invoke();
         }
 
         public void Destroy()
         {
+            Clear();
             glfw.DestroyWindow(handle);
             handle = null;
+            glfw.Terminate();
         }
 
         public bool ShouldClose() => glfw.WindowShouldClose(handle);
 
-        public GlfwWindow(string title, Int2 position, Int2 size, WindowState flags)
+        public void SwapBuffers() => glfw.SwapBuffers(handle);
+
+        public void SwapInterval(int interval) => glfw.SwapInterval(interval);
+
+        public void MakeCurrent() => glfw.MakeContextCurrent(handle);
+
+        public IntPtr GetProcAddress(string proc)
+        {
+            nint ret = glfw.GetProcAddress(proc);
+            SilkGlfw.ThrowExceptions();
+            if (ret == 0)
+            {
+                Throw(proc);
+            }
+
+            return ret;
+            static void Throw(string proc) => throw new Silk.NET.Core.Loader.SymbolLoadingException(proc);
+        }
+
+        public bool TryGetProcAddress(string proc, out IntPtr addr)
+        {
+            GlfwCallbacks.ErrorCallback errorCallback = glfw.SetErrorCallback(null);
+            bool ret = (addr = glfw.GetProcAddress(proc)) != IntPtr.Zero;
+            glfw.SetErrorCallback(errorCallback);
+            return ret;
+        }
+
+        public void Clear()
+        {
+            if (IsCurrent)
+            {
+                glfw.MakeContextCurrent(null);
+            }
+        }
+
+        public bool IsCurrent => glfw.GetCurrentContext() == handle;
+
+        public GlfwWindow(string title, int x, int y, int w, int h, WindowState flags, OpenGLInfo? glInfo = null)
+            : this(title, new Int2(x, y), new Int2(w, h), flags, glInfo)
+        { }
+
+        public GlfwWindow(string title, Int2 position, Int2 size, WindowState flags, OpenGLInfo? glInfo = null)
         {
             glfw = SilkGlfw.GetApi();
             if (glfw.Init() == false)
@@ -96,7 +139,16 @@ namespace Enigma.Glfw
             }
 
             // Set hints
-            glfw.WindowHint(WindowHintClientApi.ClientApi, ClientApi.NoApi);
+            if (glInfo == null)
+                glfw.WindowHint(WindowHintClientApi.ClientApi, ClientApi.NoApi);
+            else
+            {
+                OpenGLInfo _glInfo = glInfo.Value;
+                glfw.WindowHint(WindowHintClientApi.ClientApi, _glInfo.Api);
+                glfw.WindowHint(WindowHintOpenGlProfile.OpenGlProfile, _glInfo.Profile);
+                glfw.WindowHint(WindowHintInt.ContextVersionMajor, _glInfo.MajorVersion);
+                glfw.WindowHint(WindowHintInt.ContextVersionMinor, _glInfo.MinorVersion);
+            }
 
             glfw.WindowHint(WindowHintBool.Decorated, (flags & WindowState.Borderless) != WindowState.Borderless);
             glfw.WindowHint(WindowHintBool.Resizable, flags.HasFlag(WindowState.Resizable));
@@ -117,6 +169,7 @@ namespace Enigma.Glfw
 
             _title = title;
             handle = glfw.CreateWindow(size.X, size.Y, title, monitor, null);
+            MakeCurrent();
             glfw.DefaultWindowHints();
             Position = position;
 
