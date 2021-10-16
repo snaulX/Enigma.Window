@@ -20,7 +20,7 @@ namespace Enigma.Glfw
         private string _title;
         private bool _isClosing = false;
 
-        public NativeWindow NativeHandle { get; }
+        public NativeWindow NativeWindow { get; }
 
         public string Title { get => _title; set { glfw.SetWindowTitle(handle, value); _title = value; } }
         public Int2 Position { get { glfw.GetWindowPos(handle, out int x, out int y); return new Int2(x, y); } set => glfw.SetWindowPos(handle, value.X, value.Y); }
@@ -126,6 +126,8 @@ namespace Enigma.Glfw
 
         public bool IsCurrent => glfw.GetCurrentContext() == handle;
 
+        public WindowHandle* GlfwHandle => handle;
+
         public GlfwWindow(string title, int x, int y, int w, int h, WindowState flags, OpenGLInfo? glInfo = null)
             : this(title, new Int2(x, y), new Int2(w, h), flags, glInfo)
         { }
@@ -178,7 +180,7 @@ namespace Enigma.Glfw
             glfw.SetFramebufferSizeCallback(handle, (win, w, h) => OnFramebufferResized?.Invoke(w, h));
             _windowCloseCallback = glfw.SetWindowCloseCallback(handle, (wnd) => Close());
 
-            NativeHandle = new GlfwNativeWindow(glfw, handle).ToEnigma();
+            NativeWindow = new GlfwNativeWindow(glfw, handle).ToEnigma();
         }
     }
 }

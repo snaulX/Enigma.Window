@@ -11,7 +11,7 @@ namespace Enigma.WinForms
 {
     public class EnigmaNativeWindow : WFNativeWindow, IWindow
     {
-        public ENativeWindow NativeHandle => _eNativeWindow;
+        public ENativeWindow NativeWindow => _eNativeWindow;
 
         public string Title { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public Int2 Position { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

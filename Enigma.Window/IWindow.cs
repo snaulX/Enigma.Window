@@ -5,7 +5,7 @@ namespace Enigma.Window
 {
     public interface IWindow
     {
-        NativeWindow NativeHandle { get; }
+        NativeWindow NativeWindow { get; }
         string Title { get; set; }
         Int2 Position { get; set; }
         Int2 Size { get; set; }
