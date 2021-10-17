@@ -4,7 +4,5 @@
 #include "WindowModule.h"
 #include "GlfwWindow.h"
 
-GlfwWindow *CreateGlfwWindow(WindowModule* module);
-Window* GetWindowFromGlfw(WindowModule* module);
-
+PUBLIC void Glfw__InitFunctions();
 #endif //ENIGMA_WINDOW_GLFWMODULE_H

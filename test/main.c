@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include "WindowModule.h"
+#include "glfw/GlfwModule.h"
 
 int main()
 {
-    WindowModule *module = InitEnigmaWindow();
-    Window *wnd = module->CreateWindow(module);
-    wnd->GetTitle(wnd);
+    Glfw__InitFunctions();
+    Window *wnd = CreateWindow();
+    SetTitle(wnd, "snaulX");
+    //Window* new_wnd = CreateWindow();
+    //SetTitle(new_wnd, "lolus");
+    printf(GetTitle(wnd));
 }

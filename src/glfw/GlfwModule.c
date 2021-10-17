@@ -1,28 +1,15 @@
-#include <stdio.h>
 #include "GlfwModule.h"
 
-GlfwWindow *CreateGlfwWindow(WindowModule* module)
+Window* Glfw__CreateWindow()
 {
     GlfwWindow glfwWindow;
-    return &glfwWindow;
+    glfwWindow.test = "snaulX";
+    return GetWindowFromGlfwWindow(glfwWindow);
 }
 
-const char* PrintSmth(Window* wnd)
+PUBLIC void Glfw__InitFunctions()
 {
-    printf("snaulX");
-}
-
-Window* GetWindowFromGlfw(WindowModule* module)
-{
-    Window window;
-    window.GetTitle = PrintSmth;
-    return &window;
-    //return GetWindowFromGlfwWindow(*CreateGlfwWindow(module));
-}
-
-WindowModule *InitEnigmaWindow()
-{
-    WindowModule glfwModule;
-    glfwModule.CreateWindow = GetWindowFromGlfw;
-    return &glfwModule;
+    Set_CreateWindow(Glfw__CreateWindow);
+    Set_GetTitle(Glfw__GetTitle);
+    Set_SetTitle(Glfw__SetTitle);
 }

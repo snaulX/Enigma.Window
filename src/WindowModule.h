@@ -4,23 +4,20 @@
 
 STRUCT(Window)
 {
-    METHOD(void, SetTitle)(Window*, const char*);
-    METHOD(const char*, GetTitle)(Window*);
-    METHOD(void, SetPosition)(Window*, int, int);
-    METHOD(void, GetPosition)(Window*, int*, int*);
-    METHOD(void, SetSize)(Window*, int, int);
-    METHOD(void, GetSize)(Window*, int*, int*);
-
-    METHOD(void, Run)(Window*);
-    METHOD(void, Update)(Window*);
-    METHOD(bool, ShouldClose)(Window*);
+    void* handle;
 };
 
-STRUCT(WindowModule)
-{
-    METHOD(Window*, CreateWindow)(WindowModule*);
-};
+DECLMETHOD(void, SetTitle, (Window*, const char*))
+DECLMETHOD(const char*, GetTitle, (Window*))
+DECLMETHOD(void, SetPosition, (Window*, int, int))
+DECLMETHOD(void, GetPosition, (Window*, int*, int*))
+DECLMETHOD(void, SetSize, (Window*, int, int))
+DECLMETHOD(void, GetSize, (Window*, int*, int*))
 
-WindowModule *InitEnigmaWindow();
+DECLMETHOD(void, Run, (Window*))
+DECLMETHOD(void, Update, (Window*))
+DECLMETHOD(bool, ShouldClose, (Window*))
+
+DECLMETHOD(Window*, CreateWindow, ())
 
 #endif //WINDOW_MODULE_ENIGMA_WINDOW_H

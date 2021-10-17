@@ -11,4 +11,6 @@ if (DYNAMIC)
     add_library(Enigma.Glfw SHARED ${SOURCES})
 else()
     add_library(Enigma.Glfw STATIC ${SOURCES})
-endif ()
+endif()
+
+target_link_libraries(Enigma.Glfw PUBLIC Enigma.Window)
