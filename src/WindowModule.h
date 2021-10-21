@@ -4,7 +4,7 @@
 
 STRUCT(Window)
 {
-    void* handle;
+    void* data;
 };
 
 DECLMETHOD(void, SetTitle, (Window*, const char*))

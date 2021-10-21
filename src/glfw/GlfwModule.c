@@ -1,10 +1,12 @@
 #include "GlfwModule.h"
 
-Window* Glfw__CreateWindow()
+PRIVATE Window* Glfw__CreateWindow()
 {
-    GlfwWindow glfwWindow;
-    glfwWindow.test = "snaulX";
-    return GetWindowFromGlfwWindow(glfwWindow);
+    GlfwWindow *glfwWindow = malloc(sizeof(GlfwWindow));
+    glfwWindow->test = "";
+    Window *wnd = malloc(sizeof(Window));
+    wnd->data = glfwWindow;
+    return wnd;
 }
 
 PUBLIC void Glfw__InitFunctions()

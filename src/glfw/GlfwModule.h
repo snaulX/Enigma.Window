@@ -1,6 +1,7 @@
 #ifndef ENIGMA_WINDOW_GLFWMODULE_H
 #define ENIGMA_WINDOW_GLFWMODULE_H
 #define ENIGMA_GLFW
+#include <stdlib.h>
 #include "WindowModule.h"
 #include "GlfwWindow.h"
 
