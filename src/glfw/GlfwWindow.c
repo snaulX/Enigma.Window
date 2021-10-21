@@ -1,13 +1,16 @@
 #include "GlfwWindow.h"
 
+PRIVATE GlfwWindow *_Glfw__CastWindow(Window* wnd)
+{
+    return (GlfwWindow*)(wnd->data);
+}
+
 PRIVATE const char* Glfw__GetTitle(Window* wnd)
 {
-    return GetGlfwWindowFromWindow(wnd).test;
+    return _Glfw__CastWindow(wnd)->test;
 }
 
 PRIVATE void Glfw__SetTitle(Window* wnd, const char* title)
 {
-    GlfwWindow glfwWindow = GetGlfwWindowFromWindow(wnd);
-    glfwWindow.test = title;
-    wnd = GetWindowFromGlfwWindow(glfwWindow);
+    _Glfw__CastWindow(wnd)->test = title;
 }

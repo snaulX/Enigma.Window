@@ -21,16 +21,18 @@
     base* _base;                                                   \
     body                                                           \
     };                                                             \
-    union { base* Parent; name Child; } base##To##name##Convert;   \
+    union base##To##name##Convert { base* Parent; name Child; };   \
     inline name Get##name##From##base(base* _base)                        \
 {                                                                  \
-    base##To##name##Convert.Parent = _base;                        \
-    return base##To##name##Convert.Child;                          \
+    union base##To##name##Convert _##base##To##name##Convert;      \
+    _##base##To##name##Convert.Parent = _base;                        \
+    return _##base##To##name##Convert.Child;                          \
 }                                                                  \
     inline base* Get##base##From##name(name _child)                       \
 {                                                                  \
-    base##To##name##Convert.Child = _child;                        \
-    return base##To##name##Convert.Parent;                         \
+    union base##To##name##Convert _##base##To##name##Convert;      \
+    _##base##To##name##Convert.Child = _child;                        \
+    return _##base##To##name##Convert.Parent;                         \
 }
 
 #ifdef WIN32
