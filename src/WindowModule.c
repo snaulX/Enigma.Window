@@ -1,14 +1,14 @@
 #include "WindowModule.h"
 
-PUBLIC SETMETHOD(void, SetTitle, (Window*, const char*))
-PUBLIC SETMETHOD(const char*, GetTitle, (Window*))
-PUBLIC SETMETHOD(void, SetPosition, (Window*, int, int))
-PUBLIC SETMETHOD(void, GetPosition, (Window*, int*, int*))
-PUBLIC SETMETHOD(void, SetSize, (Window*, int, int))
-PUBLIC SETMETHOD(void, GetSize, (Window*, int*, int*))
+SETMETHOD(void, SetTitle, (Window* wnd, const char* title), wnd, title)
+SETMETHOD(const char*, GetTitle, (Window* wnd), wnd)
+SETMETHOD(void, SetPosition, (Window* wnd, int x, int y), wnd, x, y)
+SETMETHOD(void, GetPosition, (Window* wnd, int* x, int* y), wnd, x, y)
+SETMETHOD(void, SetSize, (Window* wnd, int w, int h), wnd, w, h)
+SETMETHOD(void, GetSize, (Window* wnd, int* w, int* h), wnd, w, h)
 
-PUBLIC SETMETHOD(void, Run, (Window*))
-PUBLIC SETMETHOD(void, Update, (Window*))
-PUBLIC SETMETHOD(bool, ShouldClose, (Window*))
+SETMETHOD(void, Run, (Window* wnd), wnd)
+SETMETHOD(void, Update, (Window* wnd), wnd)
+SETMETHOD(bool, ShouldClose, (Window* wnd), wnd)
 
-PUBLIC SETMETHOD(Window*, CreateWindow, ())
+SETMETHOD(Window*, CreateWindow, ())

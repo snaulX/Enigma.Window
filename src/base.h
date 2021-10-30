@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdio.h>
 
 #if defined(NULL)
 #undef NULL
@@ -44,12 +45,14 @@
 #endif
 
 #define METHOD(rtype, name) rtype(*name)
-#define DECLMETHOD(rtype, name, params) PUBLIC METHOD(rtype, name) params; \
-    PUBLIC void Set_##name(METHOD(rtype, _##name)params);
+#define DECLMETHOD(rtype, name, params) static METHOD(rtype, _##name) params; \
+    PUBLIC rtype name params;                                                 \
+    PUBLIC void Set_##name(METHOD(rtype, __##name)params);
 
-#define SETMETHOD(rtype, name, params) void Set_##name(METHOD(rtype, _##name)params) { \
-name = _##name; }
-#define GENPUBMETHOD(rtype, name, params) PUBLIC METHOD(rtype, name) params; \
-PUBLIC inline SETMETHOD(rtype, name, params)
+#define SETMETHOD(rtype, name, params, ...) PUBLIC void Set_##name(METHOD(rtype, __##name)params) { \
+_##name = __##name; }                                                                       \
+PUBLIC rtype name params { return _##name (__VA_ARGS__);  }
+
+#define LOGE(msg) printf("Error: %s", msg)
 
 #endif //ENIGMA_WINDOW_BASE_H
