@@ -1,17 +1,31 @@
 #include "GlfwModule.h"
 
-PRIVATE Window* Glfw__CreateWindow()
+PRIVATE Window* Glfw_CreateWindow()
 {
     GlfwWindow *glfwWindow = malloc(sizeof(GlfwWindow));
-    glfwWindow->test = "";
     Window *wnd = malloc(sizeof(Window));
     wnd->data = glfwWindow;
     return wnd;
 }
 
-PUBLIC void Glfw__InitFunctions()
+static inline void OnGLFWError(int code, const char* description)
 {
-    Set_CreateWindow(Glfw__CreateWindow);
-    Set_GetTitle(Glfw__GetTitle);
-    Set_SetTitle(Glfw__SetTitle);
+    printf("GLFW error %i: %s", code, description);
+}
+
+PUBLIC void Glfw_InitFunctions()
+{
+    glfwSetErrorCallback(OnGLFWError);
+    if (glfwInit() != GLFW_TRUE)
+    {
+        LOGE("Failed to initialize GLFW");
+        return;
+    }
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+    Set_CreateWindow(Glfw_CreateWindow);
+    Set_GetTitle(Glfw_GetTitle);
+    Set_SetTitle(Glfw_SetTitle);
+    Set_SetPosition(Glfw_SetPosition);
+    Set_GetPosition(Glfw_GetPosition);
+    Set_Update(Glfw_Update);
 }
