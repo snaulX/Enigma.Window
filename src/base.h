@@ -15,6 +15,17 @@
 #define NULL ((void*)0)
 #endif
 
+#if !defined(nullptr)
+#define nullptr ((void*)0)
+#endif
+
+typedef unsigned int uint;
+
+inline bool CheckBitsAny(int v, int bits)
+{
+    return (v & bits) != 0;
+}
+
 #define STRUCT(name) typedef struct name name; \
     struct name
 

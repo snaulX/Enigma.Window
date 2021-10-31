@@ -7,8 +7,13 @@ SETMETHOD(void, GetPosition, (Window* wnd, int* x, int* y), wnd, x, y)
 SETMETHOD(void, SetSize, (Window* wnd, int w, int h), wnd, w, h)
 SETMETHOD(void, GetSize, (Window* wnd, int* w, int* h), wnd, w, h)
 
+SETMETHOD(void, Show, ())
+SETMETHOD(void, Close, ())
+SETMETHOD(void, Hide, ())
+SETMETHOD(void, Destroy, ())
+
 SETMETHOD(void, Run, (Window* wnd), wnd)
 SETMETHOD(void, Update, (Window* wnd), wnd)
 SETMETHOD(bool, ShouldClose, (Window* wnd), wnd)
 
-SETMETHOD(Window*, CreateWindow, ())
+SETMETHOD(Window*, CreateWindow, (const char* title, int x, int y, int w, int h, WindowFlags flags), title, x, y, w, h, flags)
