@@ -9,11 +9,16 @@ STRUCT(GlfwWindow)
     const char* title;
 };
 
-PRIVATE GLFWwindow *_Glfw_CastWindow(Window*);
+PRIVATE inline GLFWwindow *Glfw_CastWindow(Window* wnd)
+{
+    return ((GlfwWindow*)(wnd->data))->glfwWindow;
+}
+
 PRIVATE const char* Glfw_GetTitle(Window*);
 PRIVATE void Glfw_SetTitle(Window*, const char*);
 PRIVATE void Glfw_SetPosition(Window*, int, int);
 PRIVATE void Glfw_GetPosition(Window*, int*, int*);
 PRIVATE void Glfw_Update(Window*);
+PRIVATE void Glfw_Show(Window*);
 
 #endif //ENIGMA_WINDOW_GLFWWINDOW_H
