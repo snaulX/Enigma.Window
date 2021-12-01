@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "WindowModule.h"
+#include "EnigmaWindow.h"
 #include "glfw/GlfwModule.h"
 
 int main()
