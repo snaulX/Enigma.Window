@@ -5,7 +5,7 @@
 #endif
 #include <stdlib.h>
 #include <stdio.h>
-#include "WindowModule.h"
+#include "EnigmaWindow.h"
 #include "GlfwWindow.h"
 
 PUBLIC void Glfw_InitFunctions();

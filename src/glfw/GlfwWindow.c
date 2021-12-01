@@ -31,3 +31,12 @@ PRIVATE void Glfw_Show(Window* wnd)
 
     glfwShowWindow(Glfw_CastWindow(wnd));
 }
+
+PRIVATE void* Glfw_GetWin32(Window* wnd)
+{
+#ifdef GLFW_EXPOSE_NATIVE_WIN32
+    glfwGetWin32Window(Glfw_CastWindow(wnd));
+#else
+    LOGE("You cannot get hWnd not on Win32 platform");
+#endif
+}

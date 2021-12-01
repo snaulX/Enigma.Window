@@ -78,6 +78,7 @@ PUBLIC void Glfw_InitFunctions()
     }
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
+    // Setup base window functions
     Set_CreateWindow(Glfw_CreateWindow);
     Set_GetTitle(Glfw_GetTitle);
     Set_SetTitle(Glfw_SetTitle);
@@ -86,4 +87,7 @@ PUBLIC void Glfw_InitFunctions()
     Set_Show(Glfw_Show);
     Set_Update(Glfw_Update);
     Set_Run(Base_Run);
+
+    // Setup functions for native interop
+    Set_GetWin32(Glfw_GetWin32);
 }

@@ -17,8 +17,9 @@ STRUCT(Window)
     void* data;
 };
 
-DECLMETHOD(void, SetTitle, (Window*, const char*))
-DECLMETHOD(const char*, GetTitle, (Window*))
+//DECLMETHOD(void, SetTitle, (Window*, const char*))
+//DECLMETHOD(const char*, GetTitle, (Window*))
+GETSET(Window, const char*, Title)
 DECLMETHOD(void, SetPosition, (Window*, int, int))
 DECLMETHOD(void, GetPosition, (Window*, int*, int*))
 DECLMETHOD(void, SetSize, (Window*, int, int))

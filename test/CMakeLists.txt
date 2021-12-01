@@ -7,5 +7,5 @@ add_executable(Enigma.Window.Tests main.c)
 
 target_link_libraries(Enigma.Window.Tests PUBLIC Enigma.Glfw)
 
-include_directories(Enigma.Window.Tests ../src)
-include_directories(Enigma.Window.Tests ../src/glfw/glfwlib/include)
+target_include_directories(Enigma.Window.Tests PUBLIC ../src)
+target_include_directories(Enigma.Window.Tests PUBLIC ../src/glfw/glfwlib/include)
