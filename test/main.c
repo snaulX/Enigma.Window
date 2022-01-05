@@ -2,8 +2,14 @@
 #include "EnigmaWindow.h"
 #include "glfw/GlfwModule.h"
 
+void onError(const char* error)
+{
+    printf("Enigma.Window error: %s", error);
+}
+
 int main()
 {
+    EW_SetErrorCallback(onError);
 #ifdef ENIGMA_GLFW
     Glfw_InitFunctions();
 #endif // ENIGMA_GLFW

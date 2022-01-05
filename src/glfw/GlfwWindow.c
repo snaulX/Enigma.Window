@@ -34,7 +34,10 @@ PRIVATE void Glfw_Update(Window* wnd)
 {
     glfwPollEvents();
 }
-
+PRIVATE bool Glfw_ShouldClose(Window* wnd)
+{
+    return glfwWindowShouldClose(Glfw_CastWindow(wnd));
+}
 PRIVATE void Glfw_Show(Window* wnd)
 {
     //CreateSwapchain();
