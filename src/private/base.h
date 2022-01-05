@@ -21,7 +21,10 @@
 
 typedef unsigned int uint;
 
-inline bool CheckBitsAny(int v, int bits)
+#if defined(__cplusplus)
+extern "C"
+#endif
+inline bool CheckFlags(int v, int bits)
 {
     return (v & bits) != 0;
 }
@@ -66,7 +69,5 @@ PUBLIC rtype name params { return _##name (__VA_ARGS__);  }
 
 #define GETSET(ptype, type, name) DECLMETHOD(void, Set##name, (ptype*, type)) \
 DECLMETHOD(type, Get##name, (ptype*))
-
-#define LOGE(msg) printf("Error: %s", msg)
 
 #endif //ENIGMA_WINDOW_BASE_H

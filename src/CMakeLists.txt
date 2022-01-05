@@ -13,7 +13,7 @@ else()
     add_library(Enigma.Window STATIC ${SOURCES})
 endif()
 target_include_directories(Enigma.Window PRIVATE private/)
-# target_include_directories(Enigma.Window PUBLIC ./)
+target_include_directories(Enigma.Window INTERFACE ./)
 
 if (ENIGMA_GLFW)
     add_compile_definitions(ENIGMA_GLFW)

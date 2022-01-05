@@ -3,6 +3,10 @@
 
 #include "WindowModule.h"
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 typedef enum {
     NativeWindow_Win32,
     NativeWindow_X11,
@@ -19,12 +23,17 @@ typedef enum {
 } WindowLibType;
 
 GETSET(Window, WindowLibType, LibType)
+
 GETSET(Window, NativeWindowType, NativeType)
 
 /*
  * Returns pointer to hWnd
  */
-DECLMETHOD(void*, GetWin32, (Window*))
-//DECLMETHOD(void*, GetX11, (Window*))
+DECLMETHOD(void*, GetWin32, (Window * ))
+
+DECLMETHOD(void*, GetX11, (Window * ))
+#ifdef __cplusplus
+}
+#endif
 
 #endif //ENIGMA_WINDOW_NATIVEWINDOW_H
