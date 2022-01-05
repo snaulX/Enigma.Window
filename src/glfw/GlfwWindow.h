@@ -17,9 +17,11 @@ STRUCT(GlfwWindow)
 
 PRIVATE inline GLFWwindow *Glfw_CastWindow(Window* wnd)
 {
-    return ((GlfwWindow*)(wnd->data))->glfwWindow;
+    return ((GlfwWindow*)(wnd->wndData))->glfwWindow;
 }
 
+PRIVATE void Glfw_SetUserData(Window*, void*);
+PRIVATE void* Glfw_GetUserData(Window*);
 PRIVATE const char* Glfw_GetTitle(Window*);
 PRIVATE void Glfw_SetTitle(Window*, const char*);
 PRIVATE void Glfw_SetPosition(Window*, int, int);

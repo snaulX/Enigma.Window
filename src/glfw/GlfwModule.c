@@ -1,31 +1,31 @@
 #include "GlfwModule.h"
 
-static uint windowCount = 0;
+static bool glIsInited = false;
 
 PRIVATE Window* Glfw_CreateWindow(const char* title, int x, int y, int w, int h, WindowFlags flags)
 {
     GlfwWindow *glfwWindow = malloc(sizeof(GlfwWindow));
     glfwWindow->title = title;
 
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+    if (!glIsInited) glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 
-    bool decorated = CheckBitsAny(flags, WindowState_Borderless) ? GLFW_FALSE : GLFW_TRUE;
+    bool decorated = CheckFlags(flags, WindowState_Borderless) ? GLFW_FALSE : GLFW_TRUE;
     glfwWindowHint(GLFW_DECORATED, decorated);
 
-    bool resizable = CheckBitsAny(flags, WindowState_Resizable) ? GLFW_TRUE : GLFW_FALSE;
+    bool resizable = CheckFlags(flags, WindowState_Resizable) ? GLFW_TRUE : GLFW_FALSE;
     glfwWindowHint(GLFW_RESIZABLE, resizable);
 
-    bool maximized = CheckBitsAny(flags, WindowState_Maximized) ? GLFW_TRUE : GLFW_FALSE;
+    bool maximized = CheckFlags(flags, WindowState_Maximized) ? GLFW_TRUE : GLFW_FALSE;
     glfwWindowHint(GLFW_MAXIMIZED, maximized);
 
     GLFWmonitor* monitor = nullptr;
-    if (CheckBitsAny(flags, WindowState_Fullscreen))
+    if (CheckFlags(flags, WindowState_Fullscreen))
     {
         monitor = glfwGetPrimaryMonitor();
     }
 
-    if (CheckBitsAny(flags, WindowState_FullscreenDesktop))
+    if (CheckFlags(flags, WindowState_FullscreenDesktop))
     {
         monitor = glfwGetPrimaryMonitor();
         const GLFWvidmode *mode = glfwGetVideoMode(monitor);
@@ -41,16 +41,14 @@ PRIVATE Window* Glfw_CreateWindow(const char* title, int x, int y, int w, int h,
     GLFWwindow *impl = glfwCreateWindow(w, h, title, monitor, nullptr);
     if (!impl)
     {
-        LOGE("GLFW: Failed to create window");
+        EW_Error("GLFW: Failed to create window");
     }
     glfwWindow->glfwWindow = impl;
-
-    windowCount++;
 
     glfwDefaultWindowHints();
 
     Window *wnd = malloc(sizeof(Window));
-    wnd->data = glfwWindow;
+    wnd->wndData = glfwWindow;
 
     glfwSetWindowUserPointer(impl, wnd);
     //glfwSetWindowCloseCallback(impl, );
@@ -60,9 +58,20 @@ PRIVATE Window* Glfw_CreateWindow(const char* title, int x, int y, int w, int h,
     return wnd;
 }
 
+PRIVATE void Glfw_SetOpenGL(int majorVersion, int minorVersion)
+{
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, majorVersion);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minorVersion);
+    glIsInited = true;
+}
+
 static inline void OnGLFWError(int code, const char* description)
 {
-    printf("GLFW error %i: %s", code, description);
+    // (11: first chars) + (8: code's numbers count) + (2: last chars) + description = 21 + description
+    char *errText = malloc(21*sizeof(char) + sizeof(description));
+    sprintf(errText, "GLFW error %i: %s", code, description);
+    EW_Error(errText);
 }
 
 PUBLIC void Glfw_InitFunctions()
@@ -73,13 +82,15 @@ PUBLIC void Glfw_InitFunctions()
 #endif
     if (glfwInit() != GLFW_TRUE)
     {
-        LOGE("Failed to initialize GLFW");
+        EW_Error("Failed to initialize GLFW");
         return;
     }
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
     // Setup base window functions
     Set_CreateWindow(Glfw_CreateWindow);
+    Set_SetOpenGL(Glfw_SetOpenGL);
+    Set_SetUserData(Glfw_SetUserData);
+    Set_GetUserData(Glfw_GetUserData);
     Set_GetTitle(Glfw_GetTitle);
     Set_SetTitle(Glfw_SetTitle);
     Set_SetPosition(Glfw_SetPosition);
