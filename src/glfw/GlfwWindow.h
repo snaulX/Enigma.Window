@@ -27,6 +27,7 @@ PRIVATE void Glfw_SetTitle(Window*, const char*);
 PRIVATE void Glfw_SetPosition(Window*, int, int);
 PRIVATE void Glfw_GetPosition(Window*, int*, int*);
 PRIVATE void Glfw_Update(Window*);
+PRIVATE bool Glfw_ShouldClose(Window*);
 PRIVATE void Glfw_Show(Window*);
 PRIVATE void* Glfw_GetWin32(Window*);
 

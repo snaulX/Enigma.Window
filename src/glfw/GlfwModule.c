@@ -8,7 +8,7 @@ PRIVATE Window* Glfw_CreateWindow(const char* title, int x, int y, int w, int h,
     glfwWindow->title = title;
 
     if (!glIsInited) glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+    glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
 
     bool decorated = CheckFlags(flags, WindowState_Borderless) ? GLFW_FALSE : GLFW_TRUE;
     glfwWindowHint(GLFW_DECORATED, decorated);
@@ -96,6 +96,7 @@ PUBLIC void Glfw_InitFunctions()
     Set_SetPosition(Glfw_SetPosition);
     Set_GetPosition(Glfw_GetPosition);
     Set_Show(Glfw_Show);
+    Set_ShouldClose(Glfw_ShouldClose);
     Set_Update(Glfw_Update);
     Set_Run(Base_Run);
 
