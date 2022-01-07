@@ -43,6 +43,8 @@ DECLMETHOD(void, Run, (Window*))
 DECLMETHOD(void, Update, (Window*))
 DECLMETHOD(bool, ShouldClose, (Window*))
 
+DECLMETHOD(void, SetFramebufferResizeCallback, (Window*, void(*)(Window*, int, int)))
+
 DECLMETHOD(void, SetOpenGL, (int, int))
 
 //#ifdef CreateWindow

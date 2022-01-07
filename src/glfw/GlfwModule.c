@@ -56,8 +56,6 @@ PRIVATE Window* Glfw_CreateWindow(const char* title, int x, int y, int w, int h,
     wnd->wndData = glfwWindow;
 
     glfwSetWindowUserPointer(impl, wnd);
-    //glfwSetWindowCloseCallback(impl, );
-    //glfwSetWindowSizeCallback(impl, );
     SetPosition(wnd, x, y);
 
     return wnd;
@@ -94,8 +92,8 @@ PUBLIC void Glfw_InitFunctions()
     // Setup base window functions
     Set_CreateWindow(Glfw_CreateWindow);
     Set_SetOpenGL(Glfw_SetOpenGL);
-    Set_SetUserData(Glfw_SetUserData);
-    Set_GetUserData(Glfw_GetUserData);
+    Set_SetUserData(Base_SetUserData); //Set_SetUserData(Glfw_SetUserData);
+    Set_GetUserData(Base_GetUserData); //Set_GetUserData(Glfw_GetUserData);
     Set_GetTitle(Glfw_GetTitle);
     Set_SetTitle(Glfw_SetTitle);
     Set_SetPosition(Glfw_SetPosition);
@@ -113,6 +111,7 @@ PUBLIC void Glfw_InitFunctions()
     Set_ShouldClose(Glfw_ShouldClose);
     Set_Update(Glfw_Update);
     Set_Run(Base_Run);
+    Set_SetFramebufferResizeCallback(Glfw_SetFramebufferResizeCallback);
 
     // Setup functions for native interop
     Set_GetWin32(Glfw_GetWin32);

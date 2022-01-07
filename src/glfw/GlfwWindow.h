@@ -14,6 +14,7 @@ STRUCT(GlfwWindow)
     GLFWwindow *glfwWindow;
     const char* title;
     int maxWidth, maxHeight, minWidth, minHeight;
+    void(*framebufferResizeCallback)(Window*, int, int);
 };
 
 PRIVATE inline GLFWwindow *Glfw_CastWindow(Window* wnd)
@@ -38,6 +39,7 @@ PRIVATE void Glfw_Update(Window*);
 PRIVATE bool Glfw_ShouldClose(Window*);
 PRIVATE void Glfw_Show(Window*);
 PRIVATE void Glfw_Hide(Window*);
+PRIVATE void Glfw_SetFramebufferResizeCallback(Window*, void(*)(Window*, int, int));
 PRIVATE void* Glfw_GetWin32(Window*);
 
 #endif //ENIGMA_WINDOW_GLFWWINDOW_H
