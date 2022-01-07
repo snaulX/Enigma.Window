@@ -8,5 +8,9 @@
 #include "EnigmaWindow.h"
 #include "GlfwWindow.h"
 
-PUBLIC void Glfw_InitFunctions();
+PUBLIC
+#ifdef __cplusplus
+extern "C"
+#endif
+void Glfw_InitFunctions();
 #endif //ENIGMA_WINDOW_GLFWMODULE_H
