@@ -12,6 +12,11 @@ void WindowResize(Window* wnd, int w, int h)
     printf("Width: %i\nHeight: %i\n", w, h);
 }
 
+void onUpdate(Window* wnd)
+{
+    printf("Updated!\n");
+}
+
 int main()
 {
     EW_SetErrorCallback(onError);
@@ -24,6 +29,7 @@ int main()
     Window *wnd = CreateWindow("snaulX window", 100, 100, 800, 600, WindowState_Resizable);
     SetMinSize(wnd, 320, 240);
     SetFramebufferResizeCallback(wnd, WindowResize);
+    SetUpdateCallback(wnd, onUpdate);
     printf("%s\n", GetTitle(wnd));
     Run(wnd);
 }

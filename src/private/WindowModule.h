@@ -44,6 +44,7 @@ DECLMETHOD(void, Update, (Window*))
 DECLMETHOD(bool, ShouldClose, (Window*))
 
 DECLMETHOD(void, SetFramebufferResizeCallback, (Window*, void(*)(Window*, int, int)))
+DECLMETHOD(void, SetUpdateCallback, (Window*, void(*)(Window*)))
 
 DECLMETHOD(void, SetOpenGL, (int, int))
 

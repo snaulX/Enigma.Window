@@ -23,6 +23,7 @@ SETMETHOD(void, Update, (Window* wnd), wnd)
 SETMETHOD(bool, ShouldClose, (Window* wnd), wnd)
 
 SETMETHOD(void, SetFramebufferResizeCallback, (Window* wnd, void(*callback)(Window*, int, int)), wnd, callback)
+SETMETHOD(void, SetUpdateCallback, (Window* wnd, void(*callback)(Window*)), wnd, callback)
 
 SETMETHOD(void, SetOpenGL, (int majorVersion, int minorVersion), majorVersion, minorVersion)
 

@@ -15,12 +15,16 @@ STRUCT(GlfwWindow)
     const char* title;
     int maxWidth, maxHeight, minWidth, minHeight;
     void(*framebufferResizeCallback)(Window*, int, int);
+    void(*updateCallback)(Window*);
 };
 
 PRIVATE inline GLFWwindow *Glfw_CastWindow(Window* wnd)
 {
     return ((GlfwWindow*)(wnd->wndData))->glfwWindow;
 }
+
+// Exclusively for glfw
+PUBLIC void Glfw_MakeContextCurrent(Window*);
 
 PRIVATE void Glfw_SetUserData(Window*, void*);
 PRIVATE void* Glfw_GetUserData(Window*);
@@ -40,6 +44,7 @@ PRIVATE bool Glfw_ShouldClose(Window*);
 PRIVATE void Glfw_Show(Window*);
 PRIVATE void Glfw_Hide(Window*);
 PRIVATE void Glfw_SetFramebufferResizeCallback(Window*, void(*)(Window*, int, int));
+PRIVATE void Glfw_SetUpdateCallback(Window*, void(*)(Window*));
 PRIVATE void* Glfw_GetWin32(Window*);
 
 #endif //ENIGMA_WINDOW_GLFWWINDOW_H

@@ -1,5 +1,10 @@
 #include "GlfwWindow.h"
 
+PUBLIC void Glfw_MakeContextCurrent(Window* wnd)
+{
+    glfwMakeContextCurrent(Glfw_CastWindow(wnd));
+}
+
 PRIVATE void Glfw_SetUserData(Window* wnd, void* userData)
 {
     glfwSetWindowUserPointer(Glfw_CastWindow(wnd), userData);
@@ -74,6 +79,7 @@ PRIVATE void Glfw_Close(Window* wnd)
 PRIVATE void Glfw_Update(Window* wnd)
 {
     glfwPollEvents();
+    ((GlfwWindow*)wnd->wndData)->updateCallback(wnd);
 }
 PRIVATE bool Glfw_ShouldClose(Window* wnd)
 {
@@ -99,6 +105,11 @@ PRIVATE void Glfw_SetFramebufferResizeCallback(Window* wnd, void(*callback)(Wind
 {
     ((GlfwWindow*)wnd->wndData)->framebufferResizeCallback = callback;
     glfwSetFramebufferSizeCallback(Glfw_CastWindow(wnd), Native_FramebufferResizeCallback);
+}
+
+PRIVATE void Glfw_SetUpdateCallback(Window* wnd, void(*callback)(Window*))
+{
+    ((GlfwWindow*)wnd->wndData)->updateCallback = callback;
 }
 
 PRIVATE void* Glfw_GetWin32(Window* wnd)

@@ -112,6 +112,7 @@ PUBLIC void Glfw_InitFunctions()
     Set_Update(Glfw_Update);
     Set_Run(Base_Run);
     Set_SetFramebufferResizeCallback(Glfw_SetFramebufferResizeCallback);
+    Set_SetUpdateCallback(Glfw_SetUpdateCallback);
 
     // Setup functions for native interop
     Set_GetWin32(Glfw_GetWin32);
