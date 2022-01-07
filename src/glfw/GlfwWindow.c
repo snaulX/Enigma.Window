@@ -3,12 +3,12 @@
 PRIVATE void Glfw_SetUserData(Window* wnd, void* userData)
 {
     glfwSetWindowUserPointer(Glfw_CastWindow(wnd), userData);
-    Base_SetUserData(wnd, userData);
+    //Base_SetUserData(wnd, userData);
 }
 PRIVATE void* Glfw_GetUserData(Window* wnd)
 {
-    return Base_GetUserData(wnd);
-    //return glfwGetWindowUserPointer(Glfw_CastWindow(wnd));
+    //return Base_GetUserData(wnd);
+    return glfwGetWindowUserPointer(Glfw_CastWindow(wnd));
 }
 PRIVATE const char* Glfw_GetTitle(Window* wnd)
 {
@@ -88,6 +88,17 @@ PRIVATE void Glfw_Show(Window* wnd)
 PRIVATE void Glfw_Hide(Window* wnd)
 {
     glfwHideWindow(Glfw_CastWindow(wnd));
+}
+
+PRIVATE void Native_FramebufferResizeCallback(GLFWwindow* glfwWindow, int w, int h)
+{
+    Window* wnd = glfwGetWindowUserPointer(glfwWindow);
+    ((GlfwWindow*)wnd->wndData)->framebufferResizeCallback(wnd, w, h);
+}
+PRIVATE void Glfw_SetFramebufferResizeCallback(Window* wnd, void(*callback)(Window*, int, int))
+{
+    ((GlfwWindow*)wnd->wndData)->framebufferResizeCallback = callback;
+    glfwSetFramebufferSizeCallback(Glfw_CastWindow(wnd), Native_FramebufferResizeCallback);
 }
 
 PRIVATE void* Glfw_GetWin32(Window* wnd)
