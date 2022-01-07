@@ -6,6 +6,10 @@ PRIVATE Window* Glfw_CreateWindow(const char* title, int x, int y, int w, int h,
 {
     GlfwWindow *glfwWindow = malloc(sizeof(GlfwWindow));
     glfwWindow->title = title;
+    glfwWindow->maxWidth = -1;
+    glfwWindow->maxHeight = -1;
+    glfwWindow->minWidth = -1;
+    glfwWindow->minHeight = -1;
 
     if (!glIsInited) glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
@@ -46,6 +50,7 @@ PRIVATE Window* Glfw_CreateWindow(const char* title, int x, int y, int w, int h,
     glfwWindow->glfwWindow = impl;
 
     glfwDefaultWindowHints();
+    glIsInited = false; // opengl hint was set to default, so we change this too
 
     Window *wnd = malloc(sizeof(Window));
     wnd->wndData = glfwWindow;
@@ -95,7 +100,16 @@ PUBLIC void Glfw_InitFunctions()
     Set_SetTitle(Glfw_SetTitle);
     Set_SetPosition(Glfw_SetPosition);
     Set_GetPosition(Glfw_GetPosition);
+    Set_SetSize(Glfw_SetSize);
+    Set_GetSize(Glfw_GetSize);
+    Set_SetMaxSize(Glfw_SetMaxSize);
+    Set_GetMaxSize(Glfw_GetMaxSize);
+    Set_SetMinSize(Glfw_SetMinSize);
+    Set_GetMinSize(Glfw_GetMinSize);
+    Set_Close(Glfw_Close);
+    Set_Update(Glfw_Update);
     Set_Show(Glfw_Show);
+    Set_Hide(Glfw_Hide);
     Set_ShouldClose(Glfw_ShouldClose);
     Set_Update(Glfw_Update);
     Set_Run(Base_Run);

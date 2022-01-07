@@ -30,6 +30,47 @@ PRIVATE void Glfw_GetPosition(Window* wnd, int* x, int* y)
     glfwGetWindowPos(Glfw_CastWindow(wnd), x, y);
 }
 
+PRIVATE void Glfw_SetSize(Window* wnd, int w, int h)
+{
+    glfwSetWindowSize(Glfw_CastWindow(wnd), w, h);
+}
+PRIVATE void Glfw_GetSize(Window* wnd, int* w, int* h)
+{
+    glfwGetWindowSize(Glfw_CastWindow(wnd), w, h);
+}
+
+PRIVATE void Glfw_SetMaxSize(Window* wnd, int w, int h)
+{
+    GlfwWindow *gwnd = wnd->wndData;
+    gwnd->maxWidth = w;
+    gwnd->maxHeight = h;
+    glfwSetWindowSizeLimits(gwnd->glfwWindow, gwnd->minWidth, gwnd->minHeight, w, h);
+}
+PRIVATE void Glfw_GetMaxSize(Window* wnd, int* w, int* h)
+{
+    GlfwWindow *gwnd = wnd->wndData;
+    *w = gwnd->maxWidth;
+    *h = gwnd->maxHeight;
+}
+
+PRIVATE void Glfw_SetMinSize(Window* wnd, int w, int h)
+{
+    GlfwWindow *gwnd = wnd->wndData;
+    gwnd->minWidth = w;
+    gwnd->minHeight = h;
+    glfwSetWindowSizeLimits(gwnd->glfwWindow, w, h, gwnd->maxWidth, gwnd->maxHeight);
+}
+PRIVATE void Glfw_GetMinSize(Window* wnd, int* w, int* h)
+{
+    GlfwWindow *gwnd = wnd->wndData;
+    *w = gwnd->minWidth;
+    *h = gwnd->minHeight;
+}
+
+PRIVATE void Glfw_Close(Window* wnd)
+{
+    glfwSetWindowShouldClose(Glfw_CastWindow(wnd), GLFW_TRUE);
+}
 PRIVATE void Glfw_Update(Window* wnd)
 {
     glfwPollEvents();
@@ -43,6 +84,10 @@ PRIVATE void Glfw_Show(Window* wnd)
     //CreateSwapchain();
 
     glfwShowWindow(Glfw_CastWindow(wnd));
+}
+PRIVATE void Glfw_Hide(Window* wnd)
+{
+    glfwHideWindow(Glfw_CastWindow(wnd));
 }
 
 PRIVATE void* Glfw_GetWin32(Window* wnd)
