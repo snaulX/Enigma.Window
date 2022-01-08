@@ -1,12 +1,12 @@
 # Enigma.Glfw
 **Enigma.Glfw** is a module for Enigma.Window that provides [glfw](https://www.glfw.org/) library.  
 Requirements:  
-* CMake >= 3.6
-* C99 standard
+* **CMake** version >= 3.6
+* **C99** standard
 ## Getting Started
 This module includes into main Enigma.Window repo, so you clone and add Enigma.Window and before all in `CMakeLists.txt` set `ENIGMA_GLFW` to `ON`
 ```cmake
-set(ENIGMA_GLFW OFF)
+set(ENIGMA_GLFW ON)
 ```
 If you wanna build *Enigma.Glfw* as shared library, set `ENIGMA_GLFW_DLL` to `ON`.  
 After building and linking, you need to use it in code. First of all, you must include [GlfwModule.h](https://github.com/wings-studio/Enigma.Window/blob/main/src/glfw/GlfwModule.h) header file. After it you must link this module in `main` function. Enigma.Glfw contains only one function for linking it in code: `Glfw_InitFunctions()`. Also for safety use `ENIGMA_GLFW` directive that enables when this module was linked using header or cmake.  
