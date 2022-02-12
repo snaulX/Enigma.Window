@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "EnigmaWindow.h"
-#include "glfw/GlfwModule.h"
+#include "GlfwModule.h"
 
 void onError(const char* error)
 {

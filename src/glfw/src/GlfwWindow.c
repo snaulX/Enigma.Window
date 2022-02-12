@@ -79,7 +79,9 @@ PRIVATE void Glfw_Close(Window* wnd)
 PRIVATE void Glfw_Update(Window* wnd)
 {
     glfwPollEvents();
-    ((GlfwWindow*)wnd->wndData)->updateCallback(wnd);
+	void(*updateFunc)(Window*) = ((GlfwWindow*)wnd->wndData)->updateCallback;
+    if (updateFunc)
+		updateFunc(wnd);
 }
 PRIVATE bool Glfw_ShouldClose(Window* wnd)
 {
@@ -99,7 +101,9 @@ PRIVATE void Glfw_Hide(Window* wnd)
 PRIVATE void Native_FramebufferResizeCallback(GLFWwindow* glfwWindow, int w, int h)
 {
     Window* wnd = glfwGetWindowUserPointer(glfwWindow);
-    ((GlfwWindow*)wnd->wndData)->framebufferResizeCallback(wnd, w, h);
+    void(*callback)(Window*, int, int) = ((GlfwWindow*)wnd->wndData)->framebufferResizeCallback;
+	if (callback)
+		callback(wnd, w, h);
 }
 PRIVATE void Glfw_SetFramebufferResizeCallback(Window* wnd, void(*callback)(Window*, int, int))
 {
@@ -118,6 +122,6 @@ PRIVATE void* Glfw_GetWin32(Window* wnd)
     return glfwGetWin32Window(Glfw_CastWindow(wnd));
 #else
     EW_Error("You cannot get hWnd not on Win32 platform");
-    return NULL;
+    return nullptr;
 #endif
 }
