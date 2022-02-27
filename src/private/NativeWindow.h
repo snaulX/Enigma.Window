@@ -8,30 +8,29 @@ extern "C"
 {
 #endif
 typedef enum {
-    NativeWindow_Win32,
-    NativeWindow_X11,
-    NativeWindow_Wayland,
-    NativeWindow_Android,
-    NativeWindow_Cocoa
-} NativeWindowType;
+    EW_NativeWindow_Win32,
+    EW_NativeWindow_X11,
+    EW_NativeWindow_Wayland,
+    EW_NativeWindow_Android,
+    EW_NativeWindow_Cocoa
+} EW_NativeWindowType;
 
 typedef enum {
-    WindowLib_Native,
-    WindowLib_Sdl,
-    WindowLib_Glfw,
-    WindowLib_Unknown
-} WindowLibType;
+    EW_WindowLib_Native,
+    EW_WindowLib_Sdl,
+    EW_WindowLib_Glfw,
+    EW_WindowLib_Unknown
+} EW_WindowLibType;
 
-GETSET(Window, WindowLibType, LibType)
-
-GETSET(Window, NativeWindowType, NativeType)
+DECLMETHOD(EW_WindowLibType, EW_GetLibType, (EW_Window*))
+DECLMETHOD(EW_NativeWindowType, EW_GetNativeType, (EW_Window*))
 
 /*
  * Returns pointer to hWnd
  */
-DECLMETHOD(void*, GetWin32, (Window * ))
+DECLMETHOD(void*, EW_GetWin32, (EW_Window * ))
 
-DECLMETHOD(void*, GetX11, (Window * ))
+DECLMETHOD(void*, EW_GetX11, (EW_Window * ))
 #ifdef __cplusplus
 }
 #endif

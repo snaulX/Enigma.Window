@@ -1,8 +1,6 @@
 #include "NativeWindow.h"
 
-SETMETHOD(void, SetNativeType, (Window* wnd, NativeWindowType nt), wnd, nt)
-SETMETHOD(NativeWindowType, GetNativeType, (Window* wnd), wnd)
-SETMETHOD(void, SetLibType, (Window* wnd, WindowLibType lt), wnd, lt)
-SETMETHOD(WindowLibType, GetLibType, (Window* wnd), wnd)
+SETMETHOD(EW_NativeWindowType, EW_GetNativeType, (EW_Window* wnd), wnd)
+SETMETHOD(EW_WindowLibType, EW_GetLibType, (EW_Window* wnd), wnd)
 
-SETMETHOD(void*, GetWin32, (Window* wnd), wnd)
+SETMETHOD(void*, EW_GetWin32, (EW_Window* wnd), wnd)

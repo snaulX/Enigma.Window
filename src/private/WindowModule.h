@@ -7,61 +7,59 @@ extern "C"
 {
 #endif
 typedef enum {
-    WindowState_None = 0,
-    WindowState_Fullscreen = 1 << 0,
-    WindowState_FullscreenDesktop = 1 << 1,
-    WindowState_Borderless = 1 << 2,
-    WindowState_Resizable = 1 << 3,
-    WindowState_Maximized = 1 << 4,
-} WindowFlags;
+    EW_WindowState_None = 0,
+    EW_WindowState_Fullscreen = 1 << 0,
+    EW_WindowState_FullscreenDesktop = 1 << 1,
+    EW_WindowState_Borderless = 1 << 2,
+    EW_WindowState_Resizable = 1 << 3,
+    EW_WindowState_Maximized = 1 << 4,
+} EW_WindowFlags;
 
-
-STRUCT(Window) {
+STRUCT(EW_Window) {
     void* wndData;
     void* userData;
 };
 
-//DECLMETHOD(void, SetTitle, (Window*, const char*))
-//DECLMETHOD(const char*, GetTitle, (Window*))
-GETSET(Window, const char*, Title)
-GETSET(Window, void*, UserData)
+DECLMETHOD(void, EW_SetTitle, (EW_Window *, const char*))
+DECLMETHOD(const char*, EW_GetTitle, (EW_Window *))
+//GETSET(EW_Window, const char*, Title)
+DECLMETHOD(void, EW_SetUserData, (EW_Window *, void*))
+DECLMETHOD(void*, EW_GetUserData, (EW_Window *))
+//GETSET(EW_Window, void*, UserData)
 
-DECLMETHOD(void, SetPosition, (Window*, int, int))
-DECLMETHOD(void, GetPosition, (Window*, int*, int*))
-DECLMETHOD(void, SetSize, (Window*, int, int))
-DECLMETHOD(void, GetSize, (Window*, int*, int*))
-DECLMETHOD(void, SetMaxSize, (Window*, int, int))
-DECLMETHOD(void, GetMaxSize, (Window*, int*, int*))
-DECLMETHOD(void, SetMinSize, (Window*, int, int))
-DECLMETHOD(void, GetMinSize, (Window*, int*, int*))
+DECLMETHOD(void, EW_SetPosition, (EW_Window *, int, int))
+DECLMETHOD(void, EW_GetPosition, (EW_Window *, int*, int*))
+DECLMETHOD(void, EW_SetSize, (EW_Window *, int, int))
+DECLMETHOD(void, EW_GetSize, (EW_Window *, int*, int*))
+DECLMETHOD(void, EW_SetMaxSize, (EW_Window *, int, int))
+DECLMETHOD(void, EW_GetMaxSize, (EW_Window *, int*, int*))
+DECLMETHOD(void, EW_SetMinSize, (EW_Window *, int, int))
+DECLMETHOD(void, EW_GetMinSize, (EW_Window *, int*, int*))
 
-DECLMETHOD(void, Show, ())
-DECLMETHOD(void, Close, ())
-DECLMETHOD(void, Hide, ())
-DECLMETHOD(void, Destroy, ())
-DECLMETHOD(void, Run, (Window*))
-DECLMETHOD(void, Update, (Window*))
-DECLMETHOD(bool, ShouldClose, (Window*))
+DECLMETHOD(void, EW_Show, ())
+DECLMETHOD(void, EW_Close, ())
+DECLMETHOD(void, EW_Hide, ())
+DECLMETHOD(void, EW_Destroy, ())
+DECLMETHOD(void, EW_Run, (EW_Window *))
+DECLMETHOD(void, EW_Update, (EW_Window *))
+DECLMETHOD(bool, EW_ShouldClose, (EW_Window *))
 
-DECLMETHOD(void, SetFramebufferResizeCallback, (Window*, void(*)(Window*, int, int)))
-DECLMETHOD(void, SetUpdateCallback, (Window*, void(*)(Window*)))
+DECLMETHOD(void, EW_SetFramebufferResizeCallback, (EW_Window *, void(*)(EW_Window *, int, int)))
+DECLMETHOD(void, EW_SetUpdateCallback, (EW_Window *, void(*)(EW_Window *)))
 
-DECLMETHOD(void, SetOpenGL, (int, int))
+DECLMETHOD(void, EW_SetOpenGL, (int, int))
 
-//#ifdef CreateWindow
-//#undef CreateWindow
-//#endif
-DECLMETHOD(Window*, CreateWindow, (const char* title, int x, int y, int w, int h, WindowFlags flags))
+DECLMETHOD(EW_Window*, EW_CreateWindow, (const char* title, int x, int y, int w, int h, EW_WindowFlags flags))
 
-PUBLIC inline void Base_Run(Window *wnd) {
-    while (!ShouldClose(wnd)) {
-        Update(wnd);
+PUBLIC inline void Base_Run(EW_Window *wnd) {
+    while (!EW_ShouldClose(wnd)) {
+        EW_Update(wnd);
     }
 }
-PUBLIC inline void Base_SetUserData(Window* wnd, void* userData) {
+PUBLIC inline void Base_SetUserData(EW_Window* wnd, void* userData) {
     wnd->userData = userData;
 }
-PUBLIC inline void* Base_GetUserData(Window* wnd) {
+PUBLIC inline void* Base_GetUserData(EW_Window* wnd) {
     return wnd->userData;
 }
 

@@ -7,12 +7,12 @@ void onError(const char* error)
     printf("Enigma.Window error: %s", error);
 }
 
-void WindowResize(Window* wnd, int w, int h)
+void onResize(EW_Window* wnd, int w, int h)
 {
     printf("Width: %i\nHeight: %i\n", w, h);
 }
 
-void onUpdate(Window* wnd)
+void onUpdate(EW_Window* wnd)
 {
     printf("Updated!\n");
 }
@@ -23,13 +23,10 @@ int main()
 #ifdef ENIGMA_GLFW
     Glfw_InitFunctions();
 #endif // ENIGMA_GLFW
-#ifdef CreateWindow
-    #undef CreateWindow
-#endif
-    Window *wnd = CreateWindow("snaulX window", 100, 100, 800, 600, WindowState_Resizable);
-    SetMinSize(wnd, 320, 240);
-    SetFramebufferResizeCallback(wnd, WindowResize);
-    SetUpdateCallback(wnd, onUpdate);
-    printf("%s\n", GetTitle(wnd));
-    Run(wnd);
+    EW_Window *wnd = EW_CreateWindow("snaulX window", 100, 100, 800, 600, EW_WindowState_Resizable);
+    EW_SetMinSize(wnd, 320, 240);
+    EW_SetFramebufferResizeCallback(wnd, onResize);
+    EW_SetUpdateCallback(wnd, onUpdate);
+    printf("%s\n", EW_GetTitle(wnd));
+    EW_Run(wnd);
 }
