@@ -11,6 +11,8 @@ PRIVATE EW_Window* Glfw_CreateWindow(const char* title, int x, int y, int w, int
     glfwWindow->maxHeight = -1;
     glfwWindow->minWidth = -1;
     glfwWindow->minHeight = -1;
+    glfwWindow->updateCallback = NULL;
+    glfwWindow->framebufferResizeCallback = NULL;
 
     if (!glIsInited) glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
