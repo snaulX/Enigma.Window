@@ -1,4 +1,5 @@
 #include "GlfwModule.h"
+#include "GlfwInterop.h"
 
 static bool glIsInited = false;
 

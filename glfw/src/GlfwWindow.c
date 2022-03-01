@@ -1,3 +1,4 @@
+#include "GlfwInterop.h"
 #include "GlfwWindow.h"
 
 PUBLIC void Glfw_MakeContextCurrent(EW_Window* wnd)
