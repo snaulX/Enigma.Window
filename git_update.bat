@@ -1,3 +1,3 @@
 git fetch origin
-git pull
-git submodule update
+git pull origin main
+git submodule update --init

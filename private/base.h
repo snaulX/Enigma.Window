@@ -5,20 +5,6 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#if defined(NULL)
-#undef NULL
-#endif
-
-#if defined(__cplusplus)
-#define NULL 0
-#else
-#define NULL ((void*)0)
-#endif
-
-#if !defined(nullptr)
-#define nullptr ((void*)0)
-#endif
-
 typedef unsigned int uint;
 
 #if defined(__cplusplus)

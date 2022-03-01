@@ -24,7 +24,7 @@ PRIVATE EW_Window* Glfw_CreateWindow(const char* title, int x, int y, int w, int
     bool maximized = CheckFlags(flags, EW_WindowState_Maximized) ? GLFW_TRUE : GLFW_FALSE;
     glfwWindowHint(GLFW_MAXIMIZED, maximized);
 
-    GLFWmonitor* monitor = nullptr;
+    GLFWmonitor* monitor = NULL;
     if (CheckFlags(flags, EW_WindowState_Fullscreen))
     {
         monitor = glfwGetPrimaryMonitor();
@@ -43,7 +43,7 @@ PRIVATE EW_Window* Glfw_CreateWindow(const char* title, int x, int y, int w, int
         glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
     }
 
-    GLFWwindow *impl = glfwCreateWindow(w, h, title, monitor, nullptr);
+    GLFWwindow *impl = glfwCreateWindow(w, h, title, monitor, NULL);
     if (!impl)
     {
         EW_Error("GLFW: Failed to create window");
