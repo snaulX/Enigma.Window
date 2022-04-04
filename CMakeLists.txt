@@ -5,7 +5,7 @@ set(ENIGMA_WINDOW_DLL OFF CACHE BOOL "Build shared lib instead of static")
 set(CMAKE_C_STANDARD 99)
 set(ENIGMA_GLFW OFF CACHE BOOL "Enable build of Glfw module")
 
-set(SOURCES private/WindowModule.c private/NativeWindow.c private/ErrorCallback.c)
+set(SOURCES private/KeyboardInput.c private/WindowModule.c private/NativeWindow.c private/ErrorCallback.c private/MouseInput.c)
 
 if (ENIGMA_WINDOW_DLL)
     add_library(Enigma.Window SHARED ${SOURCES})
