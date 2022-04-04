@@ -1,5 +1,7 @@
 #include "GlfwModule.h"
 #include "GlfwInterop.h"
+#include "GlfwWindow.h"
+#include "GlfwInput.h"
 
 static bool glIsInited = false;
 
@@ -121,4 +123,8 @@ PUBLIC void Glfw_InitFunctions()
     Set_EW_GetWin32(Glfw_GetWin32);
 
     Set_EW_GetLibType(Glfw_GetLibType);
+
+    // Setup input
+    Set_EI_IsKeyPress(Glfw_IsKeyPress);
+    Set_EI_IsKeyUp(Glfw_IsKeyUp);
 }

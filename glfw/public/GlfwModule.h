@@ -3,11 +3,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "EnigmaWindow.h"
-#include "GlfwWindow.h"
-
-PUBLIC
 #ifdef __cplusplus
 extern "C"
+{
 #endif
-void Glfw_InitFunctions();
+
+PUBLIC void Glfw_InitFunctions();
+
+// Exclusively for Enigma.Glfw
+PUBLIC void Glfw_MakeContextCurrent(EW_Window*);
+
+#ifdef __cplusplus
+}
+#endif
 #endif //ENIGMA_WINDOW_GLFWMODULE_H

@@ -11,7 +11,7 @@ add_subdirectory(glfwlib)
 set(ENIGMA_GLFW_DLL OFF CACHE BOOL "Build shared lib instead of static")
 set(CMAKE_C_STANDARD 99)
 set(ENIGMA_GLFW_INTEROP OFF CACHE BOOL "Adds native glfw library as public dependency")
-set(SOURCES src/GlfwWindow.c src/GlfwModule.c)
+set(SOURCES src/GlfwWindow.c src/GlfwModule.c src/GlfwInput.c)
 
 if (ENIGMA_GLFW_DLL)
     add_library(Enigma.Glfw SHARED ${SOURCES})

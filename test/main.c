@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "EnigmaWindow.h"
+#include "EnigmaInput.h"
 #include "GlfwModule.h"
 
 void onError(const char* error)
@@ -14,7 +15,8 @@ void onResize(EW_Window* wnd, int w, int h)
 
 void onUpdate(EW_Window* wnd)
 {
-    printf("Updated!\n");
+    if (EI_IsKeyPress(wnd, EI_KEY_W))
+        printf("W was pressed!\n");
 }
 
 int main()

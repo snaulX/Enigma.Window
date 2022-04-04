@@ -2,9 +2,10 @@
 #define ENIGMA_WINDOW_GLFWWINDOW_H
 #include "EnigmaWindow.h"
 
-// Exclusively for Enigma.Glfw
-PUBLIC void Glfw_MakeContextCurrent(EW_Window*);
-
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 PRIVATE void Glfw_SetUserData(EW_Window*, void*);
 PRIVATE void* Glfw_GetUserData(EW_Window*);
 PRIVATE const char* Glfw_GetTitle(EW_Window*);
@@ -26,5 +27,8 @@ PRIVATE void Glfw_SetFramebufferResizeCallback(EW_Window*, void(*)(EW_Window*, i
 PRIVATE void Glfw_SetUpdateCallback(EW_Window*, void(*)(EW_Window*));
 PRIVATE void* Glfw_GetWin32(EW_Window*);
 PRIVATE EW_WindowLibType Glfw_GetLibType(EW_Window*);
+#ifdef __cplusplus
+}
+#endif
 
 #endif //ENIGMA_WINDOW_GLFWWINDOW_H
