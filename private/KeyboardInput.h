@@ -9,6 +9,8 @@ extern "C"
 #ifndef EI_CUSTOM_KEYS
 // https://www.glfw.org/docs/3.3/group__keys.html
 // glfw keycodes based on USB HID Usage Tables so I use it too
+// This fact also gives full compatibility with glfw keys: GLFW_KEY_*
+
 typedef enum {
     EI_KEY_UNKNOWN = -1,
     EI_KEY_SPACE = 32,
@@ -60,10 +62,12 @@ typedef enum {
     EI_KEY_RIGHT_BRACKET = 93,
     EI_KEY_ESCAPE = 256,
 } EI_Key;
-#endif
+#endif // not EI_CUSTOM_KEYS
 
 DECLMETHOD(bool, EI_IsKeyDown, (EW_Window*, int))
 DECLMETHOD(bool, EI_IsKeyUp, (EW_Window*, int))
+
+DECLMETHOD(void, EI_SetKeyCallback, (EW_Window*, void(*)(EW_Window*, int, bool)))
 
 #ifdef __cplusplus
 }

@@ -127,4 +127,5 @@ PUBLIC void Glfw_InitFunctions()
     // Setup input
     Set_EI_IsKeyDown(Glfw_IsKeyDown);
     Set_EI_IsKeyUp(Glfw_IsKeyUp);
+    Set_EI_SetKeyCallback(Glfw_SetKeyCallback);
 }

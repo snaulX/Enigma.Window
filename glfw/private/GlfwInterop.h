@@ -16,6 +16,7 @@ STRUCT(GlfwWindow)
     int maxWidth, maxHeight, minWidth, minHeight;
     void(*framebufferResizeCallback)(EW_Window*, int, int);
     void(*updateCallback)(EW_Window*);
+    void (*keyCallback)(EW_Window*, int, bool);
 };
 
 PRIVATE inline GLFWwindow *Glfw_CastWindow(EW_Window* wnd)

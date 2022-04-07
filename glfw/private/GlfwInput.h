@@ -6,8 +6,10 @@ extern "C"
 {
 #endif
 
-bool Glfw_IsKeyDown(EW_Window*, int);
-bool Glfw_IsKeyUp(EW_Window*, int);
+PRIVATE bool Glfw_IsKeyDown(EW_Window*, int);
+PRIVATE bool Glfw_IsKeyUp(EW_Window*, int);
+
+PRIVATE void Glfw_SetKeyCallback(EW_Window*, void(*)(EW_Window*, int, bool));
 
 #ifdef __cplusplus
 }
