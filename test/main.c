@@ -15,8 +15,12 @@ void onResize(EW_Window* wnd, int w, int h)
 
 void onUpdate(EW_Window* wnd)
 {
-    if (EI_IsKeyPress(wnd, EI_KEY_W))
-        printf("W was pressed!\n");
+    if (EI_IsKeyDown(wnd, EI_KEY_W))
+        printf("down\t");
+    else if (EI_IsKeyUp(wnd, EI_KEY_W))
+        printf("up\t");
+    if (EI_IsKeyDown(wnd, EI_KEY_ESCAPE))
+        EW_Close(wnd);
 }
 
 int main()

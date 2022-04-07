@@ -125,6 +125,6 @@ PUBLIC void Glfw_InitFunctions()
     Set_EW_GetLibType(Glfw_GetLibType);
 
     // Setup input
-    Set_EI_IsKeyPress(Glfw_IsKeyPress);
+    Set_EI_IsKeyDown(Glfw_IsKeyDown);
     Set_EI_IsKeyUp(Glfw_IsKeyUp);
 }

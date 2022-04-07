@@ -2,7 +2,10 @@
 #define ENIGMA_WINDOW_KEYBOARDINPUT_H
 #include "base.h"
 #include "WindowModule.h"
-
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 #ifndef EI_CUSTOM_KEYS
 // https://www.glfw.org/docs/3.3/group__keys.html
 // glfw keycodes based on USB HID Usage Tables so I use it too
@@ -60,7 +63,9 @@ typedef enum {
 #endif
 
 DECLMETHOD(bool, EI_IsKeyDown, (EW_Window*, int))
-DECLMETHOD(bool, EI_IsKeyPress, (EW_Window*, int))
 DECLMETHOD(bool, EI_IsKeyUp, (EW_Window*, int))
 
+#ifdef __cplusplus
+}
+#endif
 #endif //ENIGMA_WINDOW_KEYBOARDINPUT_H

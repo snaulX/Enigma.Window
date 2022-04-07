@@ -7,7 +7,6 @@ extern "C"
 #endif
 
 bool Glfw_IsKeyDown(EW_Window*, int);
-bool Glfw_IsKeyPress(EW_Window*, int);
 bool Glfw_IsKeyUp(EW_Window*, int);
 
 #ifdef __cplusplus
